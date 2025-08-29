@@ -15,6 +15,7 @@ export interface ApiVoice {
   metadata: { title: string; description?: string };
   sample_file_name?: string;
   sample_file_path?: string;
+  sample_url?: string | null;
 }
 
 export interface ApiMintResponse { voice: ApiVoice; dat: { id: string } }
