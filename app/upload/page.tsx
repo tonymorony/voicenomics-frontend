@@ -1,11 +1,13 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { apiMintVoice } from "@/lib/api";
+import { useWallet } from "@/lib/wallet";
 import dynamic from "next/dynamic";
 const RecorderWidget = dynamic(() => import("@/app/components/RecorderWidget"), { ssr: false });
 
 export default function UploadPage() {
+  const { address } = useWallet();
   const [owner, setOwner] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -22,6 +24,11 @@ export default function UploadPage() {
   const [error, setError] = useState<string | null>(null);
 
   const policy = useMemo(() => ({ commercial_use_allowed: commercial, monthly_quota: quota, terms }), [commercial, quota, terms]);
+
+  // Prefill owner from connected wallet
+  useEffect(() => {
+    if (address && !owner) setOwner(address);
+  }, [address, owner]);
 
   const onSubmit = useCallback(async () => {
     setError(null);

@@ -58,9 +58,13 @@ export default function MarketplacePage() {
               <div>Quota: {v.usage_policy.usage_count_this_month}/{v.usage_policy.monthly_quota} this month</div>
             </div>
 
-            <div className="mt-4 flex gap-2">
+            <div className="mt-4 flex items-center gap-3">
               <Link href={`/synthesize?voiceId=${v.id}`} className="app-btn-primary text-sm">Use</Link>
-              <button className="app-btn-outline text-sm" onClick={() => navigator.clipboard.writeText(v.dat_id)}>Copy DAT ID</button>
+              {v.tx_hash ? (
+                <a className="text-xs text-blue-600 hover:underline" href={`https://testnet-explorer.lazai.network/tx/${v.tx_hash}`} target="_blank" rel="noreferrer">View tx</a>
+              ) : (
+                <span className="text-xs text-black/50">DAT {v.dat_id}</span>
+              )}
             </div>
           </div>
         ))}

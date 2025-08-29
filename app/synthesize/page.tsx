@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { apiCreateChallenge, apiListVoices, apiSynthesize, apiValidateChallenge, type ApiVoice } from "@/lib/api";
+import { useWallet } from "@/lib/wallet";
 import { useSearchParams } from "next/navigation";
 
 function short(addr: string) {
@@ -10,6 +11,7 @@ function short(addr: string) {
 }
 
 function SynthesizeInner() {
+  const { address } = useWallet();
   const search = useSearchParams();
   const initialVoiceId = search.get("voiceId") ?? undefined;
   const [voices, setVoices] = useState<ApiVoice[]>([]);
@@ -30,6 +32,10 @@ function SynthesizeInner() {
       if (!initialVoiceId && v[0]) setVoiceId(v[0].id);
     });
   }, [initialVoiceId]);
+
+  useEffect(() => {
+    if (address && !requester) setRequester(address);
+  }, [address, requester]);
 
   const selectedVoice = useMemo(() => voices.find((v) => v.id === voiceId), [voices, voiceId]);
 

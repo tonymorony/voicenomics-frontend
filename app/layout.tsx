@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
 import { WalletProvider } from "@/lib/wallet";
+import ConnectWallet from "@/app/components/ConnectWallet";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +42,7 @@ export default function RootLayout({
               <Link href="/upload" className="hover:underline">Upload / Mint DAT</Link>
               <Link href="/synthesize" className="hover:underline">Synthesize</Link>
               <Link href="/activity" className="hover:underline">Activity</Link>
-              <Link href="/profile" className="hover:underline">Profile</Link>
+              <ConnectWallet />
             </nav>
           </div>
           <div className="text-[13px]" style={{ background: "var(--backgroundGlobal)" }}>

@@ -16,6 +16,7 @@ export interface ApiVoice {
   sample_file_name?: string;
   sample_file_path?: string;
   sample_url?: string | null;
+  tx_hash?: string | null;
 }
 
 export interface ApiMintResponse { voice: ApiVoice; dat: { id: string } }
