@@ -20,11 +20,8 @@ function SynthesizeInner() {
   const [text, setText] = useState("Hello from Voicenomics – LazAI DAT demo!");
   const [commercial, setCommercial] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ tokens: number; datId: string } | null>(null);
+  const [result, setResult] = useState<{ tokens: number; datId: string; audioUrl?: string | null } | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [challenge, setChallenge] = useState<{ id: string; text: string } | null>(null);
-  const [reading, setReading] = useState("");
-  const [threshold, setThreshold] = useState(0.85);
 
   useEffect(() => {
     apiListVoices().then((v) => {
@@ -39,12 +36,7 @@ function SynthesizeInner() {
 
   const selectedVoice = useMemo(() => voices.find((v) => v.id === voiceId), [voices, voiceId]);
 
-  const ensureChallenge = async () => {
-    if (challenge) return challenge;
-    const ch = await apiCreateChallenge("Please read this short sentence to verify your voice usage.");
-    setChallenge(ch.challenge);
-    return ch.challenge;
-  };
+  // Reading challenge removed
 
   const onRun = async () => {
     setError(null);
@@ -55,26 +47,8 @@ function SynthesizeInner() {
     }
     setLoading(true);
     try {
-      // Gate with reading challenge
-      const ch = await ensureChallenge();
-      if (!reading) {
-        setError("Please read and enter the challenge text to proceed.");
-        setLoading(false);
-        return;
-      }
-      const val = await apiValidateChallenge(ch.id, reading, threshold);
-      if (!val.passed) {
-        setError(`Reading validation failed (score ${val.score.toFixed(2)} < ${threshold}).`);
-        setLoading(false);
-        return;
-      }
-
       const { royalty, audio_url } = await apiSynthesize({ voice_id: voiceId, requester_address: requester, text, commercial_use: commercial });
-      setResult({ tokens: royalty.amount_tokens, datId: royalty.dat_id });
-      if (audio_url) {
-        const a = new Audio(audio_url);
-        a.play().catch(() => {});
-      }
+      setResult({ tokens: royalty.amount_tokens, datId: royalty.dat_id, audioUrl: audio_url });
     } catch (e) {
       const message = e instanceof Error ? e.message : "Synthesis failed";
       setError(message);
@@ -86,7 +60,7 @@ function SynthesizeInner() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Synthesize speech (mock)</h1>
+        <h1 className="text-2xl font-semibold">Synthesize speech</h1>
         <p className="text-sm text-black/60 mt-1">Agent enforces DAT policies: commercial usage and monthly quotas.</p>
       </div>
 
@@ -137,25 +111,23 @@ function SynthesizeInner() {
             <label htmlFor="commercial">Commercial usage</label>
           </div>
 
-          <div className="app-card p-3">
-            <div className="text-xs text-black/60 mb-1">Reading challenge (agent validation)</div>
-            <div className="text-sm mb-2">{challenge?.text ?? "Click Generate to get a phrase to read."}</div>
-            <div className="flex gap-2">
-              <button type="button" className="app-btn-outline text-sm" onClick={() => ensureChallenge()}>Generate</button>
-              <input className="flex-1 app-input text-sm" placeholder="Type what you read" value={reading} onChange={(e) => setReading(e.target.value)} />
-              <input className="w-28 app-input text-sm" type="number" step="0.01" min={0} max={1} value={threshold} onChange={(e) => setThreshold(Number(e.target.value))} />
-            </div>
-          </div>
-
           <button onClick={onRun} disabled={loading} className="mt-2 app-btn-primary text-sm">
             {loading ? "Synthesizing…" : "Run"}
           </button>
 
           {error && <div className="text-red-600 text-sm mt-2">{error}</div>}
           {result && (
-            <div className="text-sm mt-3">
+            <div className="text-sm mt-3 space-y-2">
               <div>Usage permitted by DAT. Royalty accrued:</div>
               <div className="text-black/60">+{result.tokens} LazAI tokens → DAT {result.datId}</div>
+              {result.audioUrl && (
+                <div className="flex items-center gap-3">
+                  <audio controls src={result.audioUrl} />
+                  <a className="app-btn-outline text-xs" href={result.audioUrl} download>
+                    Download
+                  </a>
+                </div>
+              )}
             </div>
           )}
         </div>

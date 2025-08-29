@@ -47,8 +47,8 @@ export default function RootLayout({
           </div>
           <div className="text-[13px]" style={{ background: "var(--backgroundGlobal)" }}>
             <div className="mx-auto max-w-6xl px-6 py-2">
-              <span className="mr-2 font-medium">AI Unchained Hack Bounty</span>
-              <a className="underline" href="https://lazai.network/blog/lazai-x-duckchain-x-aws-hack-ai-unchained-bounty" target="_blank" rel="noreferrer">Details</a>
+              <span className="mr-2 font-medium">AI Unchained Hackathon</span>
+              <a className="underline" href="https://dorahacks.io/hackathon/ai-unchained" target="_blank" rel="noreferrer">Details</a>
             </div>
           </div>
         </header>

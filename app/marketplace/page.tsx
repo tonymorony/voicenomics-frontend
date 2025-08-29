@@ -28,7 +28,7 @@ export default function MarketplacePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Voice Marketplace (mock)</h1>
+        <h1 className="text-2xl font-semibold">Voice Marketplace</h1>
         <p className="text-sm text-black/60 mt-1">Discover tokenized voices and use them for TTS via DAT policies.</p>
       </div>
 

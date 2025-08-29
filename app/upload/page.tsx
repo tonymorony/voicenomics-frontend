@@ -135,9 +135,7 @@ export default function UploadPage() {
         </div>
       </div>
 
-      <div className="text-xs text-black/50">
-        DAT mint uses Alith SDK when PRIVATE_KEY and IPFS_JWT are set on backend. See docs for details.
-      </div>
+      
     </div>
   );
 }

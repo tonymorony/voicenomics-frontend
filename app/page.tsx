@@ -30,8 +30,7 @@ export default function Home() {
       </div>
 
       <div className="text-xs text-black/50">
-        Built for <a className="underline" href="https://lazai.network/blog/lazai-x-duckchain-x-aws-hack-ai-unchained-bounty" target="_blank" rel="noreferrer">AI Unchained Bounty</a>.
-        Learn about DATs in the <a className="underline" href="https://docs.lazai.network/quick-start-docs/data-contribution-workflow/introduction" target="_blank" rel="noreferrer">LazAI docs</a>.
+      Inspired by <a className="underline" href="https://lazai.network/blog/lazai-x-duckchain-x-aws-hack-ai-unchained-bounty" target="_blank" rel="noreferrer">LazAI AI Unchained </a> Bounty track. Learn about DATs in the <a className="underline" href="https://docs.lazai.network/quick-start-docs/data-contribution-workflow/introduction" target="_blank" rel="noreferrer">LazAI docs</a>.
       </div>
     </div>
   );
