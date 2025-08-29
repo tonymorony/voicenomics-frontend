@@ -1,8 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --inputShadow: #2626261a;
+  --surfaceRadical: #d71d4c;
+
+  --backgroundGlobal: #f1f3f6;
+  --surfacePrimary: #15181e;
+  --surfaceSecondary: #242b35;
+  --surfaceInverse: #ffffff;
+  --backgroundBlock: #fcfcfd;
+
+  --borderSecondary: #f1f3f6;
+  --borderSecondaryAction: #a8b3c4;
+
+  --buttonPrimaryDefault: #15181e;
+  --buttonPrimaryHover: #242b35;
+  --buttonPrimaryFocus: #15181e;
+
+  --controlDefault: #ffffff;
+  --controlHover: #fcfcfd;
+
+  --surfaceSource: #0fb46a;
+
+  --primaryAction: #0B92F9;
+  --secondaryAction: #384252;
+
+  --background: var(--backgroundGlobal);
+  --foreground: var(--surfacePrimary);
 }
 
 @theme inline {
@@ -12,15 +36,48 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Force light theme like Stakinator */
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--borderSecondary);
+  }
+  a {
+    color: var(--primaryAction);
+  }
+}
+
+/* Stakinator-like UI helpers */
+.app-card {
+  background: var(--surfaceInverse);
+  border: 1px solid var(--borderSecondary);
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
+}
+
+.app-btn-primary {
+  background: var(--buttonPrimaryDefault);
+  color: #fff;
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+.app-btn-primary:hover { background: var(--buttonPrimaryHover); }
+.app-btn-outline {
+  background: var(--controlDefault);
+  color: var(--surfacePrimary);
+  border: 1px solid var(--borderSecondaryAction);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+.app-input {
+  background: var(--controlDefault);
+  border: 1px solid var(--borderSecondary);
+  border-radius: 12px;
+  padding: 10px 12px;
 }
