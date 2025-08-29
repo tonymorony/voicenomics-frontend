@@ -43,6 +43,8 @@ export default function UploadPage() {
         sample: sampleFile,
       });
       setResult({ voiceId: voice.id, datId: dat.id });
+      // Notify marketplace to refresh immediately
+      try { window.dispatchEvent(new Event("voices-updated")); } catch {}
     } catch (e) {
       const message = e instanceof Error ? e.message : "Failed to mint DAT";
       setError(message);

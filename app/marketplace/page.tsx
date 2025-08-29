@@ -20,7 +20,9 @@ export default function MarketplacePage() {
     };
     load();
     const id = setInterval(load, MARKETPLACE_REFRESH_MS);
-    return () => { cancelled = true; clearInterval(id); };
+    const onUpdated = () => { load(); };
+    window.addEventListener("voices-updated", onUpdated);
+    return () => { cancelled = true; clearInterval(id); window.removeEventListener("voices-updated", onUpdated); };
   }, []);
 
   return (
@@ -42,8 +44,8 @@ export default function MarketplacePage() {
                 <div className="font-medium">{v.metadata.title}</div>
                 <div className="text-xs text-black/50">Owner: {short(v.owner_address)}</div>
               </div>
-              {v.sample_file_path && (
-                <audio controls src={v.sample_file_path} className="h-9" />
+              {(v.sample_url || v.sample_file_path) && (
+                <audio controls src={`${process.env.NEXT_PUBLIC_API_BASE || ""}/voices/${v.id}/preview`} className="h-9" />
               )}
             </div>
 
